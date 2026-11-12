@@ -60,10 +60,6 @@ class DiscordRPC(
         playbackSpeed: Float = 1.0f,
         useDetails: Boolean = false,
         status: String = "online",
-        button1Text: String = "",
-        button1Visible: Boolean = true,
-        button2Text: String = "",
-        button2Visible: Boolean = true,
         activityType: String = "listening",
         activityName: String = "",
         audioQuality: String? = null,
@@ -81,22 +77,6 @@ class DiscordRPC(
 
         val remainingDuration = durationMillis - currentPlaybackTimeMillis
         val adjustedRemainingDuration = (remainingDuration / playbackSpeed).toLong()
-
-        val buttonsList = mutableListOf<Pair<String, String>>()
-        if (button1Visible) {
-            val resolvedText = resolveVariables(
-                button1Text.ifEmpty { DEFAULT_BUTTON_1 },
-                song,
-            )
-            buttonsList.add(resolvedText to watchUrl(song))
-        }
-        if (button2Visible) {
-            val resolvedText = resolveVariables(
-                button2Text.ifEmpty { DEFAULT_BUTTON_2 },
-                song,
-            )
-            buttonsList.add(resolvedText to PROJECT_URL)
-        }
 
         val type = when (activityType) {
             "playing" -> Type.PLAYING
@@ -128,7 +108,7 @@ class DiscordRPC(
             // measured premium format.
             largeText = audioQuality,
             smallText = null,
-            buttons = if (buttonsList.isNotEmpty()) buttonsList else null,
+            buttons = null,
             type = type,
             statusDisplayType = if (useDetails) StatusDisplayType.DETAILS else StatusDisplayType.STATE,
             since = currentTime,
@@ -149,11 +129,6 @@ class DiscordRPC(
         context.getString(R.string.app_name).removeSuffix(" Dev")
 
     companion object {
-        const val PROJECT_URL = "https://github.com/kushagrasinghx/BitChord"
-
-        const val DEFAULT_BUTTON_1 = "Listen on YouTube Music"
-        const val DEFAULT_BUTTON_2 = "Visit BitChord"
-
         /** Discord draws the sleeve at roughly 96dp; 480px covers it on any density. */
         private const val ART_PX = 480
 

@@ -117,6 +117,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
@@ -395,6 +396,10 @@ fun SettingsScreen(
     }
     var showListenBrainzTokenDialog by remember { mutableStateOf(false) }
     var showLastfmLoginDialog by remember { mutableStateOf(false) }
+    var showOwnerContactDialog by rememberSaveable { mutableStateOf(false) }
+    var ownerContactType by rememberSaveable { mutableStateOf(0) }
+    var ownerContactMessage by rememberSaveable { mutableStateOf("") }
+    val clipboardManager = LocalClipboardManager.current
     val scrobbleScope = rememberCoroutineScope()
 
     val version = remember(context) {
@@ -1418,6 +1423,41 @@ fun SettingsScreen(
         }
 
         SearchableSettingsGroup(search, category = SettingsCategory.MORE) {
+            row(stringResource(R.string.owner_contact), "owner", "contact", "bug report", "feedback", "feature request", "discord", "opzenitsu_69") {
+                SettingsRow(
+                    icon = Icons.Rounded.Person,
+                    title = stringResource(R.string.void_music_owner),
+                    subtitle = stringResource(R.string.owner_nickname),
+                )
+                RowDivider()
+                SettingsRow(
+                    icon = Icons.Rounded.Groups,
+                    title = stringResource(R.string.owner_discord_id),
+                    subtitle = stringResource(R.string.owner_discord_handle),
+                    trailing = {
+                        TextButton(onClick = {
+                            clipboardManager.setText(androidx.compose.ui.text.AnnotatedString("opzenitsu_69"))
+                            Toast.makeText(context, context.getString(R.string.owner_discord_id_copied), Toast.LENGTH_SHORT).show()
+                        }) {
+                            Text(stringResource(R.string.copy_discord_id))
+                        }
+                    },
+                )
+                RowDivider()
+                SettingsRow(
+                    icon = Icons.Rounded.Draw,
+                    title = stringResource(R.string.contact_owner),
+                    subtitle = stringResource(R.string.contact_owner_subtitle),
+                    onClick = {
+                        ownerContactType = 0
+                        ownerContactMessage = ""
+                        showOwnerContactDialog = true
+                    },
+                )
+            }
+        }
+
+        SearchableSettingsGroup(search, category = SettingsCategory.MORE) {
             row(updateRowTitle, "software update", "check for updates", "background update", "latest version", "github", "upgrade") {
                 SettingsRow(
                     icon = Icons.Rounded.Download,
@@ -1719,44 +1759,6 @@ fun SettingsScreen(
             MessageState(stringResource(R.string.settings_search_empty, searchQuery))
         }
 
-        // The version line is the page's colophon, not a setting: it belongs to
-        // the whole list, so it goes when the list is narrowed to a few rows.
-        if (searchQuery.isBlank() && selectedCategory == null) {
-        val appName = stringResource(R.string.app_name)
-        Text(
-            text = buildAnnotatedString {
-                append("$appName $version  ")
-                val linkStyles = TextLinkStyles(
-                    style = SpanStyle(
-                        color = MaterialTheme.colorScheme.primary,
-                        textDecoration = TextDecoration.Underline,
-                    ),
-                )
-                withLink(LinkAnnotation.Url("https://github.com/OPZENITSUUU/VoidMusic", linkStyles)) {
-                    append("GitHub")
-                }
-                append("  ")
-                withLink(LinkAnnotation.Url("https://github.com/kushagrasinghx", linkStyles)) {
-                    append("Developer")
-                }
-                append("  ")
-                withLink(LinkAnnotation.Url("https://discord.gg/pDdKfrdHY6", linkStyles)) {
-                    append("Discord")
-                }
-                append("  ")
-                withLink(LinkAnnotation.Url("https://bitchord.kushagrasingh.in/", linkStyles)) {
-                    append("Website")
-                }
-                append("\n~YouTube Music & Listen Together Backend")
-            },
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 24.dp, bottom = 8.dp),
-        )
-        }
         if (searchQuery.isBlank()) {
             Text(
                 text = stringResource(R.string.settings_made_by),
@@ -1768,6 +1770,69 @@ fun SettingsScreen(
                     .padding(top = 54.dp, bottom = 28.dp),
             )
         }
+    }
+
+    if (showOwnerContactDialog) {
+        val contactTypes = listOf(
+            stringResource(R.string.owner_contact_bug),
+            stringResource(R.string.owner_contact_feedback),
+            stringResource(R.string.owner_contact_feature),
+        )
+        AlertDialog(
+            onDismissRequest = { showOwnerContactDialog = false },
+            title = { Text(stringResource(R.string.contact_owner)) },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    Text(
+                        stringResource(R.string.owner_contact_instructions),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                    contactTypes.forEachIndexed { index, label ->
+                        TextButton(onClick = { ownerContactType = index }) {
+                            Text(
+                                text = if (ownerContactType == index) "✓  $label" else label,
+                                color = if (ownerContactType == index) MaterialTheme.colorScheme.primary
+                                    else MaterialTheme.colorScheme.onSurface,
+                            )
+                        }
+                    }
+                    OutlinedTextField(
+                        value = ownerContactMessage,
+                        onValueChange = { ownerContactMessage = it },
+                        label = { Text(stringResource(R.string.owner_contact_message_hint)) },
+                        minLines = 3,
+                        maxLines = 5,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                    TextButton(onClick = {
+                        clipboardManager.setText(androidx.compose.ui.text.AnnotatedString("opzenitsu_69"))
+                        Toast.makeText(context, context.getString(R.string.owner_discord_id_copied), Toast.LENGTH_SHORT).show()
+                    }) {
+                        Text(stringResource(R.string.copy_discord_id))
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    val category = contactTypes.getOrElse(ownerContactType) { contactTypes.first() }
+                    val message = ownerContactMessage.trim()
+                    if (message.isNotEmpty()) {
+                        clipboardManager.setText(androidx.compose.ui.text.AnnotatedString("[$category] $message"))
+                        Toast.makeText(context, context.getString(R.string.owner_message_copied), Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, context.getString(R.string.owner_enter_message), Toast.LENGTH_SHORT).show()
+                    }
+                }) {
+                    Text(stringResource(R.string.copy_message))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showOwnerContactDialog = false }) {
+                    Text(stringResource(R.string.cancel))
+                }
+            },
+        )
     }
 
     picking?.let { target ->

@@ -198,10 +198,11 @@ jobs:
           body: |
             ## Void Music ${{ inputs.release_tag || github.ref_name }}
 
-            Bug-fix release.
+            Owner-contact and branding update.
 
-            - Pauses animated cover-art video decoding and periodic frame capture when music is paused, the app is backgrounded, or the player is transitioning, reducing unnecessary work.
-            - Keeps the existing application ID and release signing certificate.
+            - Adds an Owner Contact section with the provided Discord ID and a copy-message composer for bug reports, feedback, and feature requests.
+            - Removes custom Discord Rich Presence buttons from its settings, preview, and outgoing activity payload.
+            - Keeps the existing application ID and production signing certificate.
 
             Android can install this as an in-place update only over builds signed with the same certificate. Older beta builds signed with a different certificate cannot be updated in place.
         env:
