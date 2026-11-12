@@ -7,13 +7,13 @@
 A customizable music client with flexible sources, detailed playback controls, synced lyrics, an artwork-rich player and a library that stays yours.
 
 <p>
-  <a href="https://github.com/OPZENITSUUU/VoidMusic/releases/latest/download/Void.Music.apk"><img src="https://img.shields.io/badge/GET%20VOID%20MUSIC-Latest%20Android%20APK-8B5CF6?style=for-the-badge&logo=android&logoColor=white" alt="Download the latest Android APK" /></a>
+  <a href="https://github.com/OPZENITSUUU/VoidMusic-Release/releases/latest/download/Void.Music.apk"><img src="https://img.shields.io/badge/GET%20VOID%20MUSIC-Latest%20Android%20APK-8B5CF6?style=for-the-badge&logo=android&logoColor=white" alt="Download the latest Android APK" /></a>
 </p>
 
 <p>
-  <a href="https://github.com/OPZENITSUUU/VoidMusic/releases"><img src="https://img.shields.io/github/v/release/OPZENITSUUU/VoidMusic?style=for-the-badge&label=LATEST%20RELEASE&labelColor=151521" alt="Latest release" /></a>
-  <a href="https://github.com/OPZENITSUUU/VoidMusic/releases"><img src="https://img.shields.io/github/downloads/OPZENITSUUU/VoidMusic/total?style=for-the-badge&label=DOWNLOADS&labelColor=151521" alt="Total downloads" /></a>
-  <a href="https://github.com/OPZENITSUUU/VoidMusic/blob/main/LICENSE"><img src="https://img.shields.io/github/license/OPZENITSUUU/VoidMusic?style=for-the-badge&labelColor=151521" alt="License" /></a>
+  <a href="https://github.com/OPZENITSUUU/VoidMusic-Release/releases"><img src="https://img.shields.io/github/v/release/OPZENITSUUU/VoidMusic?style=for-the-badge&label=LATEST%20RELEASE&labelColor=151521" alt="Latest release" /></a>
+  <a href="https://github.com/OPZENITSUUU/VoidMusic-Release/releases"><img src="https://img.shields.io/github/downloads/OPZENITSUUU/VoidMusic/total?style=for-the-badge&label=DOWNLOADS&labelColor=151521" alt="Total downloads" /></a>
+  <a href="https://github.com/OPZENITSUUU/VoidMusic-Release/blob/main/LICENSE"><img src="https://img.shields.io/github/license/OPZENITSUUU/VoidMusic?style=for-the-badge&labelColor=151521" alt="License" /></a>
 </p>
 
 [Features](#-feature-tour) · [Download](#-download) · [Audio quality](#-playback--audio) · [Build](#-build-from-source) · [Contribute](#-support--contributing)
@@ -201,15 +201,15 @@ The repository contains more than one target, but **the current Void Music Relea
 
 <div align="center">
 
-<a href="https://github.com/OPZENITSUUU/VoidMusic/releases/latest/download/Void.Music.apk"><img src="https://img.shields.io/badge/Download-Void.Music.apk-8B5CF6?style=for-the-badge&logo=android&logoColor=white" alt="Download Void.Music.apk" /></a>
+<a href="https://github.com/OPZENITSUUU/VoidMusic-Release/releases/latest/download/Void.Music.apk"><img src="https://img.shields.io/badge/Download-Void.Music.apk-8B5CF6?style=for-the-badge&logo=android&logoColor=white" alt="Download Void.Music.apk" /></a>
 
-**[Open all releases](https://github.com/OPZENITSUUU/VoidMusic/releases)** · **[Report a problem](https://github.com/OPZENITSUUU/VoidMusic/issues)**
+**[Open all releases](https://github.com/OPZENITSUUU/VoidMusic-Release/releases)** · **[Report a problem](https://github.com/OPZENITSUUU/VoidMusic-Release/issues)**
 
 </div>
 
 ### Install on Android
 
-1. Open the [latest release](https://github.com/OPZENITSUUU/VoidMusic/releases/latest).
+1. Open the [latest release](https://github.com/OPZENITSUUU/VoidMusic-Release/releases/latest).
 2. Download **Void.Music.apk** from the release assets.
 3. Open the APK. If prompted, allow your browser or file manager to install apps from that source.
 4. Install and open Void Music, then configure the sources and optional services you use.
@@ -224,7 +224,7 @@ Android only accepts an in-place update when the package identity and signing ce
 
 **Requirements:** JDK 17+, Android SDK and the native build components requested by the Gradle project.
 
-<pre><code>git clone https://github.com/OPZENITSUUU/VoidMusic.git
+<pre><code>git clone https://github.com/OPZENITSUUU/VoidMusic-Release.git
 cd VoidMusic
 ./gradlew :app:assemblePersonalDebug</code></pre>
 
@@ -293,7 +293,7 @@ Release builds require a release key and suitable configuration. Signing keystor
 
 ## 🐛 Support & contributing
 
-Found a bug or have a feature idea? Open a [GitHub Issue](https://github.com/OPZENITSUUU/VoidMusic/issues). Please include:
+Found a bug or have a feature idea? Open a [GitHub Issue](https://github.com/OPZENITSUUU/VoidMusic-Release/issues). Please include:
 
 - App version and device/OS version.
 - What you expected and what actually happened.
